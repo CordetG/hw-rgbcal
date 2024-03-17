@@ -44,8 +44,6 @@ Connect the potentiometer (knob) to the MB2 as follows:
 * Pin 2 to P2
 * Pin 3 to +3.3V
 
-![image of microbitv2 hardware setup](imgs/hardware-setup.jpg)
-
 ![image of labeled hardware setup](imgs/hardware-drawing.jpg)
 
 ## UI
