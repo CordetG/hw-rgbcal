@@ -82,3 +82,10 @@ to be right now: it can be tuned lower.
 * [ ] Add Support for Red and Green lines
 * [ ] Use the buttons in UI
 * [ ] Get Measurements of approximate min frame rate & max % on-time
+
+## References
+
+### Doc Tools
+
+[Mintlify Doc Writer](https://marketplace.visualstudio.com/items?itemName=mintlify.document)  
+[Clippy Docs](https://doc.rust-lang.org/clippy)
