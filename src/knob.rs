@@ -1,18 +1,30 @@
-/// Import all items from the root module of the crate
+//! Implementing the potentiometer and its functionality.
+//!
+//! This module contains utility functions for creating a knob object and
+//! how the knob interacts with input.
+//!
+//! # Layout
+//!
+//! At the top level, is a type alias ADC for saadc::Saadc<'static, 1> used by the Knob struct. The
+//! implementation of the Knob struct creates a new async ADC object and measures
+//! the `&mut self` reference and returning a scaled u32 value.
+//!
+//! [`Saadc<'d, const N: usize>`]: https://docs.embassy.dev/embassy-nrf/git/nrf5340-app-s/saadc/struct.Saadc.htmlhttp://doc.rust-lang.org/std/option/enum.Option.html
+
 use crate::*;
 
 /// The line `pub type Adc = saadc::Saadc<'static, 1>;` is creating a public type alias `Adc` for the
 /// `Saadc` struct from the `saadc` module. The `Saadc` struct is a generic struct that takes two type
-/// parameters, in this case, `'static` and `1`.
+/// parameters, 'static` and `1`.
 pub type Adc = saadc::Saadc<'static, 1>;
 
 /// A struct representing a knob connected to an ADC (Analog to Digital Converter) signal
 pub struct Knob(Adc);
 
-/// The `impl Knob { ... }` block in the Rust code snippet is implementing methods for the `Knob`
+/// The `impl Knob { ... }` block is implementing methods for the `Knob`
 /// struct.
 impl Knob {
-    /// The function `new` in Rust initializes a new instance of a struct with a given Adc object after
+    /// The function `new` initializes a new instance of a struct with a given Adc object after
     /// calibrating it asynchronously.
     ///
     /// Arguments:
@@ -28,12 +40,12 @@ impl Knob {
         Self(adc)
     }
 
-    /// This Rust function asynchronously measures a value, scales it, and calculates a result based on
+    /// The 'measure' function asynchronously measures a value, scales it, and calculates a result based on
     /// certain conditions.
     ///
     /// Returns:
     ///
-    /// The `measure` function returns a `u32` value.
+    /// A `u32` value.
     pub async fn measure(&mut self) -> u32 {
         let mut buf = [0];
         self.0.sample(&mut buf).await;

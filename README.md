@@ -44,7 +44,7 @@ Connect the potentiometer (knob) to the MB2 as follows:
 * Pin 2 to P2
 * Pin 3 to +3.3V
 
-![image of labeled hardware setup](imgs/hardware-drawing.jpg)
+![image of labeled hardware setup][1]
 
 ## UI
 
@@ -85,5 +85,13 @@ to be right now: it can be tuned lower.
 
 ### Doc Tools
 
-[Mintlify Doc Writer](https://marketplace.visualstudio.com/items?itemName=mintlify.document)  
-[Clippy Docs](https://doc.rust-lang.org/clippy)
+[Mintlify Doc Writer][2]  
+[Rust Doc Style Guide (Repo)][3]  
+[Rust Docs][4]  
+[Clippy Docs][5]
+
+[1]:imgs/hardware-drawing.jpg
+[2]:https://marketplace.visualstudio.com/items?itemName=mintlify.document
+[3]:https://github.com/rust-lang/rfcs/blob/master/text/1574-more-api-documentation-conventions.md#appendix-a-full-conventions-text
+[4]:https://doc.rust-lang.org/beta/rustdoc/index.html
+[5]:https://doc.rust-lang.org/clippy

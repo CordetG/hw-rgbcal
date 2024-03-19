@@ -1,8 +1,8 @@
 #![no_std]
 #![no_main]
 
-/// Declaring modules and re-exporting their contents for easier access from other parts
-/// of the codebase.
+/// Crate modules to synchronize the use of the potentiometer, RGE LED, and the buttons
+/// from the UI.
 mod knob;
 mod rgb;
 mod ui;
