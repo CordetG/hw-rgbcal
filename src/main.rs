@@ -37,6 +37,7 @@ pub static RGB_LEVELS: Mutex<ThreadModeRawMutex, [u32; 3]> = Mutex::new([0; 3]);
 /// The constant `LEVELS` represents a specific value related to the RGB LED levels.
 pub const LEVELS: u32 = 16;
 
+pub static FR_RATE: Mutex<ThreadModeRawMutex, u64> = Mutex::new(100);
 /// This async Rust function retrieves RGB levels by locking a shared resource.
 ///
 /// Returns:
@@ -48,7 +49,12 @@ async fn get_rgb_levels() -> [u32; 3] {
     *rgb_levels
 }
 
-/// The function `set_rgb_levels` in Rust is an asynchronous function that takes a closure as an
+async fn get_frame_rate() -> u64 {
+    let rate = FR_RATE.lock().await;
+    *rate
+}
+
+/// The function `set_rgb_levels` is an asynchronous function that takes a closure as an
 /// argument to set RGB levels.
 ///
 /// Arguments:
@@ -62,6 +68,14 @@ where
 {
     let mut rgb_levels = RGB_LEVELS.lock().await;
     setter(&mut rgb_levels);
+}
+
+async fn set_frame_rate<F>(setter: F)
+where
+    F: FnOnce(&mut u64),
+{
+    let mut rate = FR_RATE.lock().await;
+    setter(&mut rate);
 }
 
 /// The function initializes various components on a microcontroller board, sets up interrupts,
@@ -100,7 +114,9 @@ async fn main(_spawner: Spawner) -> ! {
         saadc_config,
         [saadc::ChannelConfig::single_ended(board.p2)],
     );
+    // setup potentiometer
     let knob = Knob::new(saadc).await;
+    // setup ui
     let mut ui = Ui::new(knob, board.btn_a, board.btn_b);
 
     // The line `join::join(rgb.run(), ui.run()).await;` in the Rust code snippet is using the `join`

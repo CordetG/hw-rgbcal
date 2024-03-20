@@ -107,15 +107,20 @@ impl Ui {
     /// the state until interrupted.
     pub async fn run(&mut self) -> ! {
         self.state.levels[2] = self.knob.measure().await;
-        self.state.frame_rate = self.knob.measure().await as u64;
         set_rgb_levels(|rgb| {
             *rgb = self.state.levels;
+        })
+        .await;
+        self.state.frame_rate = get_frame_rate().await;
+        set_frame_rate(|tick_time| {
+            *tick_time = self.state.frame_rate;
         })
         .await;
         self.state.show();
         loop {
             // get knob measurement
             let level = self.knob.measure().await;
+            let rate = level as u64 * self.state.frame_rate;
             // update blue from knob
             if level != self.state.levels[2] {
                 self.state.levels[2] = level;
@@ -124,9 +129,12 @@ impl Ui {
                 })
                 .await;
             }
-            // update framerate from knob
-            if level as u64 != self.state.frame_rate {
-                self.state.frame_rate = level as u64;
+            if rate != self.state.frame_rate {
+                self.state.frame_rate = rate;
+                set_frame_rate(|tick_time| {
+                    *tick_time = self.state.frame_rate;
+                })
+                .await;
             }
             self.state.show();
             Timer::after_millis(50).await;

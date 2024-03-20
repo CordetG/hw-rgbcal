@@ -103,7 +103,7 @@ Upon running ```cargo embed --release``` with the original code, everything work
 
 ### Code
 
-* [ ] Share frame rate between UI and RGB structs
+* [x] Share frame rate between UI and RGB structs
 * [ ] Adjust RGB delays according to the frame rate
 * [ ] Add Support for Red and Green lines
 * [ ] Use the buttons in UI
