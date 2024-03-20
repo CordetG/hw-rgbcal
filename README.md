@@ -44,8 +44,6 @@ Connect the potentiometer (knob) to the MB2 as follows:
 * Pin 2 to P2
 * Pin 3 to +3.3V
 
-![image of labeled hardware setup][1]
-
 ## UI
 
 The knob controls the individual settings: frame rate and
@@ -75,6 +73,36 @@ to be right now: it can be tuned lower.
 
 ## Process
 
+### Wiring Method
+
+* [x] Connect DragonTail to the breadboard
+* [x] Connect Micro:bit V2 to the DragonTail
+* [x] Connect RGB LED to the breadboard
+* [x] Connect the LED wires to the pins [per the Wiring section/RGB LED](README.md/#wiring)
+* [x] Connect the Potentiometer to the breadboard
+* [x] Connect the Potentiometer wires [per the Wiring section/Potentiometer](README.md/#wiring)
+
+-- *What I did and how it went* --  
+
+I used a different potentiometer than the one provided in the class kit that did not have the additional clamps that were in the way. The pins on the potentiometer used had the ground pin and 3.3V pin on one side and the P2 pin on the opposite side. The knob also has an arrow on the top that shows the position of the rotation.
+
+Knowing that the breadboard is connected by rows and the +/- are connected by column made the wiring simple to connect the pins. I had no issues wiring up the unit. [See drawing below][1]
+
+Upon running ```cargo embed --release``` with the original code, everything worked as intended. Turning the knob clockwise change the RGB LED from Green to Cyan.
+
+![Image of labeled hardware setup][1]
+
+### Documentation
+
+* [x] Comment RGB Calibration code
+* [ ] Comment added code
+* [ ] Use ```cargo doc``` command to generate docs
+* [ ] Make sure to use ```cargo clippy```
+* [ ] Make sure to use ```cargo fmt --check``` and ```cargo fmt```
+* [ ] Optional: Use ```cargo fmt --fix```
+
+### Code
+
 * [ ] Share frame rate between UI and RGB structs
 * [ ] Adjust RGB delays according to the frame rate
 * [ ] Add Support for Red and Green lines
@@ -89,6 +117,10 @@ to be right now: it can be tuned lower.
 [Rust Doc Style Guide (Repo)][3]  
 [Rust Docs][4]  
 [Clippy Docs][5]
+
+---
+
+*NOTE:* For the tools, such as *Mintlify*, they provide a good template -- but still require manual editing and/or verbiage modification.
 
 [1]:imgs/hardware-drawing.jpg
 [2]:https://marketplace.visualstudio.com/items?itemName=mintlify.document
