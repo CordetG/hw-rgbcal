@@ -132,42 +132,49 @@ impl Ui {
     /// The async 'run' function continuously measures a knob input, updates RGB levels, and displays
     /// the state until interrupted.
     pub async fn run(&mut self) -> ! {
+
+        let mut button_states = [false, false];
+
         self.set().await;
 
         loop {
             // get knob measurement
             let level = self.knob.measure().await;
             let rate = 1 + level as u64;
-            // update blue from knob
-            if level != self.state.levels[0] {
-                self.state.levels[0] = level;
-                set_rgb_levels(|rgb| {
-                    *rgb = self.state.levels;
-                })
-                .await;
-            }
-            if level != self.state.levels[1] {
-                self.state.levels[1] = level;
-                set_rgb_levels(|rgb| {
-                    *rgb = self.state.levels;
-                })
-                .await;
-            }
-            if level != self.state.levels[2] {
-                self.state.levels[2] = level;
-                set_rgb_levels(|rgb| {
-                    *rgb = self.state.levels;
-                })
-                .await;
-            }
-            if rate != self.state.frame_rate {
-                self.state.frame_rate = rate * 10;
-                set_frame_rate(|tick_time| {
-                    *tick_time = self.state.frame_rate;
-                })
-                .await;
-            }
 
+            button_states[0] = self._button_a.is_low();
+            button_states[1] = self._button_b.is_low();
+            match button_states {
+                // update blue from knob
+                [true, true] => if level != self.state.levels[0] {
+                    self.state.levels[0] = level;
+                    set_rgb_levels(|rgb| {
+                        *rgb = self.state.levels;
+                    })
+                    .await;
+                },
+                [false, true] => if level != self.state.levels[1] {
+                    self.state.levels[1] = level;
+                    set_rgb_levels(|rgb| {
+                        *rgb = self.state.levels;
+                    })
+                    .await;
+                }
+                [true, false] => if level != self.state.levels[2] {
+                    self.state.levels[2] = level;
+                    set_rgb_levels(|rgb| {
+                        *rgb = self.state.levels;
+                    })
+                    .await;
+                }
+                _ => if rate != self.state.frame_rate {
+                    self.state.frame_rate = rate * 10;
+                    set_frame_rate(|tick_time| {
+                        *tick_time = self.state.frame_rate;
+                    })
+                    .await;
+                }
+            }
             self.state.show();
             Timer::after_millis(self.state.frame_rate).await;
         }
