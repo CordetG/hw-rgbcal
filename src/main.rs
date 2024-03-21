@@ -56,9 +56,9 @@ async fn get_rgb_levels() -> [u32; 3] {
 
 /// The function `get_frame_rate` in Rust retrieves the frame rate value by locking a mutex and
 /// returning the rate.
-/// 
+///
 /// Returns:
-/// 
+///
 /// The function `get_frame_rate` is returning an unsigned 64-bit integer representing the frame rate.
 async fn get_frame_rate() -> u64 {
     let rate = FR_RATE.lock().await;
@@ -83,9 +83,9 @@ where
 
 /// The function `set_frame_rate` is an asynchronous function that takes a closure as input to
 /// set the frame rate.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `setter`: The `setter` parameter is a closure that takes a mutable reference to a `u64` value and
 /// modifies it. It is used to set the frame rate value in the `set_frame_rate` function.
 async fn set_frame_rate<F>(setter: F)

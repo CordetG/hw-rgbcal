@@ -103,6 +103,13 @@ impl Ui {
         }
     }
 
+    /// The function `set_color` asynchronously sets the color levels based on a measurement from a knob
+    /// and updates the RGB levels accordingly.
+    ///
+    /// Arguments:
+    ///
+    /// * `color`: The `color` parameter is a `usize` value representing the color level to be set in
+    /// the `self.state.levels` array.
     async fn set_color(&mut self, color: usize) {
         self.state.levels[color] = self.knob.measure().await;
         set_rgb_levels(|rgb| {
@@ -111,6 +118,7 @@ impl Ui {
         .await;
     }
 
+    /// The `set_all` function asynchronously sets colors and frame rate.
     async fn set_all(&mut self) {
         for color_pos in 0..=2 {
             self.set_color(color_pos).await;

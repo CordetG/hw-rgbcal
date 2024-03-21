@@ -97,8 +97,24 @@ Upon running ```cargo embed --release``` with the original code, everything work
 ### Documentation
 
 * [x] Comment RGB Calibration code
-* [ ] Comment added code
-* [ ] Use ```cargo doc``` command to generate docs
+* [X] Comment added code
+* [X] Use ```cargo doc``` command to generate docs
+
+```bash
+$ cargo doc
+Documenting <package>
+...
+Finished dev [unoptimized + debuginfo] target(s) in 25.82s
+Generated <path>/target/thumbv7em-none-eabihf/doc/mb2_embassy_rgb/index.html
+
+$ cargo doc --open
+    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+    Opening <path>/target/thumbv7em-none-eabihf/doc/mb2_embassy_rgb/index.html
+```
+
+
+
+
 * [X] Make sure to use ```cargo clippy```
 
 ```bash
