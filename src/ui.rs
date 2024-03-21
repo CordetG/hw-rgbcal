@@ -103,10 +103,19 @@ impl Ui {
         }
     }
 
-    /// The async 'run' function continuously measures a knob input, updates RGB levels, and displays
-    /// the state until interrupted.
-    pub async fn run(&mut self) -> ! {
+    async fn set(&mut self) {
         let setting = self.knob.measure().await;
+
+        self.state.levels[0] = setting;
+        set_rgb_levels(|rgb| {
+            *rgb = self.state.levels;
+        })
+        .await;
+        self.state.levels[1] = setting;
+        set_rgb_levels(|rgb| {
+            *rgb = self.state.levels;
+        })
+        .await;
         self.state.levels[2] = setting;
         set_rgb_levels(|rgb| {
             *rgb = self.state.levels;
@@ -118,11 +127,32 @@ impl Ui {
         })
         .await;
         self.state.show();
+    }
+
+    /// The async 'run' function continuously measures a knob input, updates RGB levels, and displays
+    /// the state until interrupted.
+    pub async fn run(&mut self) -> ! {
+        self.set().await;
+
         loop {
             // get knob measurement
             let level = self.knob.measure().await;
-            let rate = 1 + self.knob.measure().await as u64;
+            let rate = 1 + level as u64;
             // update blue from knob
+            if level != self.state.levels[0] {
+                self.state.levels[0] = level;
+                set_rgb_levels(|rgb| {
+                    *rgb = self.state.levels;
+                })
+                .await;
+            }
+            if level != self.state.levels[1] {
+                self.state.levels[1] = level;
+                set_rgb_levels(|rgb| {
+                    *rgb = self.state.levels;
+                })
+                .await;
+            }
             if level != self.state.levels[2] {
                 self.state.levels[2] = level;
                 set_rgb_levels(|rgb| {

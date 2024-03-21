@@ -98,12 +98,12 @@ Upon running ```cargo embed --release``` with the original code, everything work
 * [ ] Comment added code
 * [ ] Use ```cargo doc``` command to generate docs
 * [ ] Make sure to use ```cargo clippy```
-* [ ] Make sure to use ```cargo fmt --check``` and ```cargo fmt```
-* [ ] Optional: Use ```cargo fmt --fix```
+* [ ] Make sure to use ```cargo fmt --check``` and ```cargo fmt --all```
 
 ### Code
 
 * [x] Share frame rate between UI and RGB structs
+* [X] Adjust RGB delays according to the frame rate
 
 This took a bit to wrap my head around. I played with Mutex a bit to understand how the rgb and ui modules can integrate values. At first, I could get the ui module to print the values changing, but the LED light was unaffected.  
 
@@ -113,9 +113,12 @@ Because the frame rate is the only adjustment when no buttons are pushed, I *tem
 
 Upon reintroducing the blue light changes → Both the blue light and the frame rate would increase or decrease synonymously. I mainly found it fun to watch. But the important thing was that the knob adjusted the frame rate from 10...160 and went from obnoxiously blinking to smooth.
 
-* [ ] Adjust RGB delays according to the frame rate
-* [ ] Add Support for Red and Green lines
+* [X] Add Support for Red and Green lines
+
+To start, I did the basic thing -- to add the red and green lines such that the red, green, and blue light all change in unison with the frame rate based on the knob measurement. This mechanism simply changed the LED light from 0ff to a flickery cyan to a constant cyan.
+
 * [ ] Use the buttons in UI
+
 * [ ] Get Measurements of approximate min frame rate & max % on-time
 
 ## References
