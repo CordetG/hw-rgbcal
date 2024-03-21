@@ -14,6 +14,8 @@ This tool is designed to find out a decent frame rate and
 maximum RGB component values to produce a white-looking RGB
 of reasonable brightness.
 
+Epilepsy Warning [^!] for flashing light.
+
 See below for UI.
 
 This tool is *mostly* finished! Please wire your
@@ -97,8 +99,25 @@ Upon running ```cargo embed --release``` with the original code, everything work
 * [x] Comment RGB Calibration code
 * [ ] Comment added code
 * [ ] Use ```cargo doc``` command to generate docs
-* [ ] Make sure to use ```cargo clippy```
-* [ ] Make sure to use ```cargo fmt --check``` and ```cargo fmt --all```
+* [X] Make sure to use ```cargo clippy```
+
+```bash
+$ cargo clippy
+    Checking mb2-embassy-rgb v0.1.0 (<path>)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.13s
+```
+
+No errors reported.
+
+* [X] Make sure to use ```cargo fmt --check``` and ```cargo fmt --all```
+
+```bash
+$ cargo fmt --all
+<user>@<domain>:<path>
+$ 
+```
+
+Formatted all files without issue.
 
 ### Code
 
@@ -119,7 +138,15 @@ To start, I did the basic thing -- to add the red and green lines such that the 
 
 * [X] Use the buttons in UI
 
+The main difficulty I had with the buttons was holding down both A + B and trying to change the knob. Sometimes the buttons would not read as both A and B values. I would have to go back and change the value that changed mistakenly. Additionally, one of the buttons -- I think it was *B* was not as sensitive as *A* for whatever reason so the button would not always read as *down*.
+
 * [X] Get Measurements of approximate min frame rate & max % on-time
+
+The values I found to produce a decent *white*:  
+[R: 15, G: 10, B: 9]  
+min frame-rate &approx; 50 to 60 frames/s  
+
+For more in-depth info on the process, [see the section Mini-Experiment below][14].
 
 ## Mini-Experiment
 
@@ -151,18 +178,50 @@ Don't be so impressed... I used an online calculator. Really, the only values I 
 ### Values
 
 * Temperature of [*white* &approx; 6545 K][13]  
-* Lower boundary wavelength *(blue)* set to 0.44 &mu;m 
+* Lower boundary wavelength *(blue)* set to 0.44 &mu;m
 * Upper boundary wavelength *(red)* set to 0.71 &mu;m  
 
 ### Method and Result
 
 Wavelength of the peak = 0.560684 &mu;m  
 
-I converted the wavelengths back to nm[^6] 
+I converted the wavelengths back to nm[^6] and calculated the percentage of red, green, and blue wavelengths relative to white.
+
+Wavelength of the peak as *white* &approx; 561 nm  
+Wavelength of *red* &approx; 710 nm  
+Wavelength of *green* &approx; 510 nm  
+Wavelength of *blue* &approx; 440 nm  
+
+*red* relative to *white* &approx; 125%  
+*green* relative to *white* &approx; 91%  
+*blue* relative to *white* &approx; 79%  
+
+Given that *15* was the max value for each of the colors, *white* would occur at approximately *12*.
+
+Red at level *15*  
+⇒ 15 / 1.25 &approx; 12 *(white)* &rarr; just for reference  
+⇒ 12 * 0.91 &approx; 10 *(green)*  
+⇒ 12 * 0.78 &approx; 9 *(blue)*
+
+So, the approximate levels I used to generate *white* are [15, 10, 9].
 
 *Was this scientifically sound?*  
 Probably not, but I wanted to try it anyway.
 
+## Subjectivity
+
+There are a couple factors I noted that could indicate differences in values; particularly with the frame_rate.  
+
+1. [Photophobia][15][^7]  
+   As someone with a genetic predisposition for migraines and experience migraines and extreme sensitivity to light being the largest culprit, there is a chance that I can pick up slight differences that others may not notice.  
+   I tried 30 frames per second, but I could tell it was still flickering. At 40 fps, the flickering improved, but it still bothered me. 50 was okay enough to justify a min frame_rate, but I preferred 60 fps.  
+
+   I also noticed that, due to the sensitivity, I can see the red, green, and blue in the light, and it especially left an *imprint* of the colors after looking away. Though, I could no longer sense the blinking, I was able to pick up the colors separately because they are positioned in separate locations in the light itself which is why I could see a red, green, and blue stripe.  
+
+   This was only difficult in the sense that I couldn't properly tell how close it was to *white*, so I attempted to use a shade. Covering it with my hand helped a bit and I could see the reflected light and figured it was close enough.
+
+2. Camera  
+   The visual that may appear on the camera can also have an effect on what the light looks like in real time, especially if using a cellphone that has software editing integrated in the camera app.
 
 ## References
 
@@ -187,6 +246,10 @@ Probably not, but I wanted to try it anyway.
 [^4]: Due to the subjectivity, I turned up each color one at a time to get a closer *visual* match. RGB(255,0,0) seemed too orange-red, so I increased the wavelength a scosche.
 [^5]: Like all *tools*, this should not be used as a be-all solution, rather it provides a good template -- but still requires manual editing and/or verbiage modification.
 [^6]: Realized this was not necessary, but it's not like it took more than a second.
+[^7]: Quoted from National Library of Medicine:  
+  `The term photophobia is a misnomer and not quite accurate. It comes from two Greek words: photo- “light” and phobia “fear or dread of”—hence, “fear of light.”  
+  It is defined as an abnormal sensitivity to light that can induce or exacerbate pain.`
+[^!]: Due to the nature of LED light and flashing, it's important to note that this project may be an issue for anyone who has epilepsy.
 
 <!--Collection of Links-->
 
@@ -203,3 +266,5 @@ Probably not, but I wanted to try it anyway.
 [11]: https://www.spectralcalc.com/blackbody_calculator/blackbody.php
 [12]: https://academo.org/demos/colour-temperature-relationship/
 [13]: imgs/planck-calculator-input&results.png
+[14]: README.md/#mini-experiment
+[15]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3485070/

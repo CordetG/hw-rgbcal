@@ -103,76 +103,72 @@ impl Ui {
         }
     }
 
-    async fn set(&mut self) {
-        let setting = self.knob.measure().await;
+    async fn set_color(&mut self, color: usize) {
+        self.state.levels[color] = self.knob.measure().await;
+        set_rgb_levels(|rgb| {
+            *rgb = self.state.levels;
+        })
+        .await;
+    }
 
-        self.state.levels[0] = setting;
-        set_rgb_levels(|rgb| {
-            *rgb = self.state.levels;
-        })
-        .await;
-        self.state.levels[1] = setting;
-        set_rgb_levels(|rgb| {
-            *rgb = self.state.levels;
-        })
-        .await;
-        self.state.levels[2] = setting;
-        set_rgb_levels(|rgb| {
-            *rgb = self.state.levels;
-        })
-        .await;
+    async fn set_all(&mut self) {
+        for color_pos in 0..=2 {
+            self.set_color(color_pos).await;
+        }
+
         self.state.frame_rate = get_frame_rate().await;
         set_frame_rate(|tick_time| {
             *tick_time = self.state.frame_rate;
         })
         .await;
-        self.state.show();
     }
 
     /// The async 'run' function continuously measures a knob input, updates RGB levels, and displays
     /// the state until interrupted.
     pub async fn run(&mut self) -> ! {
-
+        // btn_a & btn_b are not pressed
         let mut button_states = [false, false];
 
-        self.set().await;
+        self.set_all().await;
+        self.state.show();
 
         loop {
             // get knob measurement
             let level = self.knob.measure().await;
             let rate = 1 + level as u64;
 
+            // Check button states
             button_states[0] = self._button_a.is_low();
             button_states[1] = self._button_b.is_low();
+
             match button_states {
-                // update blue from knob
-                [true, true] => if level != self.state.levels[0] {
-                    self.state.levels[0] = level;
-                    set_rgb_levels(|rgb| {
-                        *rgb = self.state.levels;
-                    })
-                    .await;
-                },
-                [false, true] => if level != self.state.levels[1] {
-                    self.state.levels[1] = level;
-                    set_rgb_levels(|rgb| {
-                        *rgb = self.state.levels;
-                    })
-                    .await;
+                // btn_a & btn_b pushed --> update red
+                [true, true] => {
+                    if level != self.state.levels[0] {
+                        self.set_color(0).await;
+                    }
                 }
-                [true, false] => if level != self.state.levels[2] {
-                    self.state.levels[2] = level;
-                    set_rgb_levels(|rgb| {
-                        *rgb = self.state.levels;
-                    })
-                    .await;
+                // btn_b only pushed --> update green
+                [false, true] => {
+                    if level != self.state.levels[1] {
+                        self.set_color(1).await;
+                    }
                 }
-                _ => if rate != self.state.frame_rate {
-                    self.state.frame_rate = rate * 10;
-                    set_frame_rate(|tick_time| {
-                        *tick_time = self.state.frame_rate;
-                    })
-                    .await;
+                // btn_a only pushed --> update blue
+                [true, false] => {
+                    if level != self.state.levels[2] {
+                        self.set_color(2).await;
+                    }
+                }
+                // default: no buttons pushed --> update frame_rate
+                _ => {
+                    if rate != self.state.frame_rate {
+                        self.state.frame_rate = rate * 10;
+                        set_frame_rate(|tick_time| {
+                            *tick_time = self.state.frame_rate;
+                        })
+                        .await;
+                    }
                 }
             }
             self.state.show();

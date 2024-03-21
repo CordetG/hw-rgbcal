@@ -34,9 +34,13 @@ use num_traits::float::FloatCore;
 /// declaring a static variable named `RGB_LEVELS` of type `Mutex<ThreadModeRawMutex, [u32; 3]>` and
 /// initializing it with a new mutex containing an array of three unsigned 32-bit integers `[0; 3]`.
 pub static RGB_LEVELS: Mutex<ThreadModeRawMutex, [u32; 3]> = Mutex::new([0; 3]);
+
 /// The constant `LEVELS` represents a specific value related to the RGB LED levels.
 pub const LEVELS: u32 = 16;
 
+/// The line `pub static FR_RATE: Mutex<ThreadModeRawMutex, u64> = Mutex::new(10);` in the Rust code
+/// snippet is declaring a static variable named `FR_RATE` of type `Mutex<ThreadModeRawMutex, u64>` and
+/// initializing it with a new mutex containing a single unsigned 64-bit integer value `10`.
 pub static FR_RATE: Mutex<ThreadModeRawMutex, u64> = Mutex::new(10);
 
 /// This async Rust function retrieves RGB levels by locking a shared resource.
@@ -50,6 +54,12 @@ async fn get_rgb_levels() -> [u32; 3] {
     *rgb_levels
 }
 
+/// The function `get_frame_rate` in Rust retrieves the frame rate value by locking a mutex and
+/// returning the rate.
+/// 
+/// Returns:
+/// 
+/// The function `get_frame_rate` is returning an unsigned 64-bit integer representing the frame rate.
 async fn get_frame_rate() -> u64 {
     let rate = FR_RATE.lock().await;
     *rate
@@ -71,6 +81,13 @@ where
     setter(&mut rgb_levels);
 }
 
+/// The function `set_frame_rate` is an asynchronous function that takes a closure as input to
+/// set the frame rate.
+/// 
+/// Arguments:
+/// 
+/// * `setter`: The `setter` parameter is a closure that takes a mutable reference to a `u64` value and
+/// modifies it. It is used to set the frame rate value in the `set_frame_rate` function.
 async fn set_frame_rate<F>(setter: F)
 where
     F: FnOnce(&mut u64),
