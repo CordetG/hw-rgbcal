@@ -37,7 +37,8 @@ pub static RGB_LEVELS: Mutex<ThreadModeRawMutex, [u32; 3]> = Mutex::new([0; 3]);
 /// The constant `LEVELS` represents a specific value related to the RGB LED levels.
 pub const LEVELS: u32 = 16;
 
-pub static FR_RATE: Mutex<ThreadModeRawMutex, u64> = Mutex::new(100);
+pub static FR_RATE: Mutex<ThreadModeRawMutex, u64> = Mutex::new(10);
+
 /// This async Rust function retrieves RGB levels by locking a shared resource.
 ///
 /// Returns:
@@ -102,7 +103,7 @@ async fn main(_spawner: Spawner) -> ! {
     let red = led_pin(AnyPin::from(board.p9));
     let green = led_pin(AnyPin::from(board.p8));
     let blue = led_pin(AnyPin::from(board.p16));
-    let rgb: Rgb = Rgb::new([red, green, blue], 100);
+    let rgb: Rgb = Rgb::new([red, green, blue], 10);
 
     // This code snippet is configuring and initializing the SAADC (Successive Approximation
     // Analog-to-Digital Converter) module on a microcontroller board.
@@ -117,7 +118,7 @@ async fn main(_spawner: Spawner) -> ! {
     // setup potentiometer
     let knob = Knob::new(saadc).await;
     // setup ui
-    let mut ui = Ui::new(knob, board.btn_a, board.btn_b);
+    let mut ui: Ui = Ui::new(knob, board.btn_a, board.btn_b);
 
     // The line `join::join(rgb.run(), ui.run()).await;` in the Rust code snippet is using the `join`
     // function from the `embassy_futures` crate to concurrently run the tasks returned by `rgb.run()`

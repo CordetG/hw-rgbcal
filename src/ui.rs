@@ -51,7 +51,7 @@ impl Default for UiState {
     fn default() -> Self {
         Self {
             levels: [LEVELS - 1, LEVELS - 1, LEVELS - 1],
-            frame_rate: 100,
+            frame_rate: 10,
         }
     }
 }
@@ -120,23 +120,24 @@ impl Ui {
         self.state.show();
         loop {
             // get knob measurement
-            //let level = self.knob.measure().await;
-            let rate = self.knob.measure().await;
+            let level = self.knob.measure().await;
+            let rate = 1 + self.knob.measure().await as u64;
             // update blue from knob
-            //if level != self.state.levels[2] {
-              //  self.state.levels[2] = level;
-                //set_rgb_levels(|rgb| {
-                  //  *rgb = self.state.levels;
-                //})
-                //.await;
-            if rate != self.state.frame_rate{
+            if level != self.state.levels[2] {
+                self.state.levels[2] = level;
+                set_rgb_levels(|rgb| {
+                    *rgb = self.state.levels;
+                })
+                .await;
+            }
+            if rate != self.state.frame_rate {
                 self.state.frame_rate = rate * 10;
                 set_frame_rate(|tick_time| {
                     *tick_time = self.state.frame_rate;
                 })
                 .await;
-                }
             }
+        
             self.state.show();
             Timer::after_millis(self.state.frame_rate).await;
         }
