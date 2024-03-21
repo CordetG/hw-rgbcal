@@ -104,6 +104,15 @@ Upon running ```cargo embed --release``` with the original code, everything work
 ### Code
 
 * [x] Share frame rate between UI and RGB structs
+
+This took a bit to wrap my head around. I played with Mutex a bit to understand how the rgb and ui modules can integrate values. At first, I could get the ui module to print the values changing, but the LED light was unaffected.  
+
+I realized that I needed to modify the rgb module `run` function to use the `frame_time_tick` function with `get_frame_rate`.
+
+Because the frame rate is the only adjustment when no buttons are pushed, I *temporarily* had the blue light code ignored. I noticed that the light would dim as I turned the knob counter-clockwise.
+
+Upon reintroducing the blue light changes → Both the blue light and the frame rate would increase or decrease synonymously. I mainly found it fun to watch. But the important thing was that the knob adjusted the frame rate from 10...160 and went from obnoxiously blinking to smooth.
+
 * [ ] Adjust RGB delays according to the frame rate
 * [ ] Add Support for Red and Green lines
 * [ ] Use the buttons in UI
