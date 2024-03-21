@@ -137,7 +137,7 @@ impl Ui {
                 })
                 .await;
             }
-        
+
             self.state.show();
             Timer::after_millis(self.state.frame_rate).await;
         }
