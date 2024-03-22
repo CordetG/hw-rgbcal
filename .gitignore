@@ -17,4 +17,6 @@ Cargo.lock
 
 *.code-workspace
 
-../.vscode
+.vscode
+
+.gitignore

@@ -112,9 +112,6 @@ $ cargo doc --open
     Opening <path>/target/thumbv7em-none-eabihf/doc/mb2_embassy_rgb/index.html
 ```
 
-
-
-
 * [X] Make sure to use ```cargo clippy```
 
 ```bash
@@ -160,7 +157,9 @@ The main difficulty I had with the buttons was holding down both A + B and tryin
 
 The values I found to produce a decent *white*:  
 [R: 15, G: 10, B: 9]  
-min frame-rate &approx; 50 to 60 frames/s  
+min frame-rate &approx; 50 to 60 fps  
+
+![Settings][17]
 
 For more in-depth info on the process, [see the section Mini-Experiment below][14].
 
@@ -241,6 +240,7 @@ There are a couple factors I noted that could indicate differences in values; pa
 
 ## References
 
+[RGB Calibration (Forked Repo)][16]  
 [Visible Light Wavelengths][3]  
 [Planck's Law of Black-body Radiation][4]  
 [Planck's Law Calculator][11]  
@@ -284,3 +284,5 @@ There are a couple factors I noted that could indicate differences in values; pa
 [13]: imgs/planck-calculator-input&results.png
 [14]: README.md/#mini-experiment
 [15]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3485070/
+[16]: https://github.com/pdx-cs-rust-embedded/hw-rgbcal-skeleton
+[17]: imgs/settings.png

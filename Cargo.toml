@@ -1,5 +1,5 @@
 [package]
-authors = ["Bart Massey <bart@cs.pdx.edu>"]
+authors = ["Bart Massey <bart@cs.pdx.edu>", "Cordet Gula"]
 edition = "2021"
 name = "mb2-embassy-rgb"
 version = "0.1.0"
