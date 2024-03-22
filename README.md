@@ -23,7 +23,7 @@ hardware up (see below), finish it, comment it, and use it
 to find good values. Then document those values in this
 README.
 
-:warning: Epilepsy warning for flashing light. [^!]
+:warning: Epilepsy warning for flashing light. [^1]
 
 ## Build and Run
 
@@ -162,22 +162,34 @@ The values I found to produce a decent *white*:
 min frame-rate &approx; 50 to 60 fps  
 
 ![Settings][17]  
-*Snapshot of live settings*
+*Snapshot of live settings*  
+
+---
+
+#### *Image of color wheel appearance through a white cloth (diffusing the light)*
+
+![Color Wheel Effect][23]
+
+---
 
 For more in-depth info on the process, [see the section Mini-Experiment below][14].
 
-![RGB Calibration][21]
+<!--Video-->
+
+![RGB Calibration Video Link][21]
+
+---
 
 ## Mini-Experiment
 
-Given that red(&nu;) < green(&nu;) < blue(&nu;)[^1], I had a thought about testing out ratio values to attempt to stabilize all three colors such that an *optimum* [^2] white can be produced in a more controlled fashion.
+Given that red(&nu;) < green(&nu;) < blue(&nu;)[^2], I had a thought about testing out ratio values to attempt to stabilize all three colors such that an *optimum* [^3] white can be produced in a more controlled fashion.
 
 Looking at the wavelengths in nanometers, I wanted to get a ratio of the wavelengths between the red, green, and blue waves. Then, replicate that ratio based on the values provided in the program.
 
-The RGB values in nm: [^3]  
+The RGB values in nm: [^4]  
 Blue (0,0,255) &approx; 440 nm  
 Green (0,255,0) &approx; 510 nm  
-Red (237,0,0) &approx; 710 nm [^4]
+Red (237,0,0) &approx; 710 nm [^5]
 
 ### The Rabbit Hole
 
@@ -243,6 +255,10 @@ There are a couple factors I noted that could indicate differences in values; pa
 2. Camera  
    The visual that may appear on the camera can also have an effect on what the light looks like in real time, especially if using a cellphone that has software editing integrated in the camera app.
 
+   Here is an example of this effect:
+
+   ![Rainbow Effect][22]
+
 ## References
 
 [RGB Calibration (Forked Repo)][16]  
@@ -252,27 +268,28 @@ There are a couple factors I noted that could indicate differences in values; pa
 [Color-Temperature Relationship][12]  
 [Embed Videos in README][18]  
 [Clippy Docs][8]  
-[Embassy Book][19]
+[Embassy Book][20]
 
 ### Doc Tools
 
-[Mintlify Doc Writer][5][^5]  
+[Mintlify Doc Writer][5][^8]  
 [Rust Doc Style Guide (Repo)][6]  
 [Rust Docs][7]  
 [Markdown Guide][9]  
 [Markdown Symbols][10]
 
 <!-- Footers -->
-[^1]: In regard to visible light frequency and energy.
-[^2]: *Optimum* here does not indicate perfection, but is trying to find values that result in testing a *good*, objective blending of red, green, and blue.
-[^3]: There is not a precise consensus for the specific values in the visible light spectrum, so the approximation is based on the references used, noting that other references may indicate different values.
-[^4]: Due to the subjectivity, I turned up each color one at a time to get a closer *visual* match. RGB(255,0,0) seemed too orange-red, so I increased the wavelength a scosche.
-[^5]: Like all *tools*, this should not be used as a be-all solution, rather it provides a good template -- but still requires manual editing and/or verbiage modification.
+
+[^1]: Due to the nature of LED light and flashing, it's important to note that this project may be an issue for anyone who has epilepsy.
+[^2]: In regard to visible light frequency and energy.
+[^3]: *Optimum* here does not indicate perfection, but is trying to find values that result in testing a *good*, objective blending of red, green, and blue.
+[^4]: There is not a precise consensus for the specific values in the visible light spectrum, so the approximation is based on the references used, noting that other references may indicate different values.
+[^5]: Due to the subjectivity, I turned up each color one at a time to get a closer *visual* match. RGB(255,0,0) seemed too orange-red, so I increased the wavelength a scosche.
 [^6]: Realized this was not necessary, but it's not like it took more than a second.
 [^7]: Quoted from National Library of Medicine:  
   `The term photophobia is a misnomer and not quite accurate. It comes from two Greek words: photo- “light” and phobia “fear or dread of”—hence, “fear of light.”  
   It is defined as an abnormal sensitivity to light that can induce or exacerbate pain.`
-[^!]: Due to the nature of LED light and flashing, it's important to note that this project may be an issue for anyone who has epilepsy.
+[^8]: Like all *tools*, this should not be used as a be-all solution, rather it provides a good template -- but still requires manual editing and/or verbiage modification.
 
 <!--Collection of Links-->
 
@@ -297,3 +314,5 @@ There are a couple factors I noted that could indicate differences in values; pa
 [19]: imgs/rgb_light_as_white.jpg
 [20]: https://embassy.dev/book/dev/index.html
 [21]: imgs/rgb_calibration_demo.mp4
+[22]: imgs/rainbow_effect.jpg
+[23]: imgs/color_wheel.jpg
