@@ -8,13 +8,13 @@ Winter 2024
 Original Contribution by  
 Bart Massey 2024
 
+![Image of RGB Light][19]
+
 ## About  
 
 This tool is designed to find out a decent frame rate and
 maximum RGB component values to produce a white-looking RGB
 of reasonable brightness.
-
-Epilepsy Warning [^!] for flashing light.
 
 See below for UI.
 
@@ -22,6 +22,8 @@ This tool is *mostly* finished! Please wire your
 hardware up (see below), finish it, comment it, and use it
 to find good values. Then document those values in this
 README.
+
+:warning: Epilepsy warning for flashing light. [^!]
 
 ## Build and Run
 
@@ -159,9 +161,12 @@ The values I found to produce a decent *white*:
 [R: 15, G: 10, B: 9]  
 min frame-rate &approx; 50 to 60 fps  
 
-![Settings][17]
+![Settings][17]  
+*Snapshot of live settings*
 
 For more in-depth info on the process, [see the section Mini-Experiment below][14].
+
+![RGB Calibration][21]
 
 ## Mini-Experiment
 
@@ -215,8 +220,8 @@ Given that *15* was the max value for each of the colors, *white* would occur at
 
 Red at level *15*  
 ⇒ 15 / 1.25 &approx; 12 *(white)* &rarr; just for reference  
-⇒ 12 * 0.91 &approx; 10 *(green)*  
-⇒ 12 * 0.78 &approx; 9 *(blue)*
+⇒ 12 x 0.91 &approx; 10 *(green)*  
+⇒ 12 x 0.78 &approx; 9 *(blue)*
 
 So, the approximate levels I used to generate *white* are [15, 10, 9].
 
@@ -244,14 +249,16 @@ There are a couple factors I noted that could indicate differences in values; pa
 [Visible Light Wavelengths][3]  
 [Planck's Law of Black-body Radiation][4]  
 [Planck's Law Calculator][11]  
-[Color-Temperature Relationship][12]
+[Color-Temperature Relationship][12]  
+[Embed Videos in README][18]  
+[Clippy Docs][8]  
+[Embassy Book][19]
 
 ### Doc Tools
 
 [Mintlify Doc Writer][5][^5]  
 [Rust Doc Style Guide (Repo)][6]  
 [Rust Docs][7]  
-[Clippy Docs][8]  
 [Markdown Guide][9]  
 [Markdown Symbols][10]
 
@@ -286,3 +293,7 @@ There are a couple factors I noted that could indicate differences in values; pa
 [15]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3485070/
 [16]: https://github.com/pdx-cs-rust-embedded/hw-rgbcal-skeleton
 [17]: imgs/settings.png
+[18]: https://stackoverflow.com/questions/4279611/how-to-embed-a-video-into-github-readme-md/4279746#4279746
+[19]: imgs/rgb_light_as_white.jpg
+[20]: https://embassy.dev/book/dev/index.html
+[21]: imgs/rgb_calibration_demo.mp4
